@@ -1,0 +1,13 @@
+test*
+*env*
+__pycache__/
+**cache**
+**.cfg
+**.prof
+*vscode*
+complete.txt
+**.vsls.json
+docs/_build/
+dist/
+*egg-info*
+**senither/
