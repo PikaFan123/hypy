@@ -2,7 +2,6 @@ test*
 *env*
 __pycache__/
 **cache**
-**.cfg
 **.prof
 *vscode*
 complete.txt
