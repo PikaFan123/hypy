@@ -19,9 +19,9 @@ class GuildRank(HypyObject):
         self._raw["inGuild"] = True  # backwards compat
         self._raw["rank"] = idx  # backwards compat
         self.name = self._raw["name"]
-        self.default = bool(self._raw["default"])
-        self.tag = self._raw["tag"]
-        self.priority = self._raw["priority"]
+        self.default = bool(self._raw.get('default', False))
+        self.tag = self._raw.get('tag', "")
+        self.priority = self._raw.get('priority', 0)
         self.index = idx
 
     def __getitem__(self, key):
