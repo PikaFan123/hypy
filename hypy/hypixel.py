@@ -166,7 +166,7 @@ class Hypixel:
             _, response = await self._get("/guild", name=name)
             return Guild(response, self)
         elif guild_id is not None:
-            _, response = await self._get("/guild", id=id)
+            _, response = await self._get("/guild", id=guild_id)
             return Guild(response, self)
         elif playerNameOrUuid is not None:
             if utils.is_username(playerNameOrUuid):
