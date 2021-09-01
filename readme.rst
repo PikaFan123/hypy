@@ -41,3 +41,4 @@ Credits
 | https://github.com/twoolie/NBT
 | https://github.com/ijl/orjson
 | https://pypi.org/project/aiofiles/
+| https://github.com/Senither/Hypixel-Skyblock-Leaderboard for the weight calculations

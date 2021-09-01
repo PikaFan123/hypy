@@ -16,7 +16,7 @@ setup(
     author="PikaFan123",
     license="MIT License",
     long_description=read("readme.rst"),
-    packages=["hypy", "hypy.ext", "hypy.ext.collisions"],
+    packages=["hypy", "hypy.ext", "hypy.ext.collisions", "hypy.ext.senither"],
     install_requires=["aiohttp", "dataclasses", "aiofiles", "nbt", "orjson"],
     python_requires=">=3.8,<4.0",
 )

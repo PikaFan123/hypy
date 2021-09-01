@@ -2,6 +2,7 @@ from collections import defaultdict
 from orjson import orjson
 import aiofiles
 from .vars import scs
+from .ext.senither.senither import SenitherWeight
 from .hypyobject import HypyObject
 from .skyblockskills import (
     SkyblockSkills,
@@ -63,6 +64,12 @@ class SkyblockProfile(HypyObject):
         """
         async with aiofiles.open(filename, mode="w+") as f:
             await f.write(orjson.dumps(self._raw_member_info, indent=4))
+
+    @property
+    def senither_weight(self) -> dict:
+        """Returns weight in the Senither weight system"""
+        senither = SenitherWeight(self)
+        return senither.calc_weight()
 
     @property
     def skills(self) -> SkyblockSkills:
