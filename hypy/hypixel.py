@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Optional
 import asyncio
 import traceback
 from time import time_ns as timestamp
@@ -80,7 +80,7 @@ class Hypixel:
         await self.update_resources()
         self.utils = Utils(self._sb_resources)
 
-    def _debug_url(self, endpoint, **params) -> None:
+    def _debug_url(self, endpoint, **params) -> str:
         """Generate a debug url for endpoint and parameters"""
         url = f"{self._base_url}{endpoint}?key={self._apikey}"
         for key, value in params.items():
@@ -155,7 +155,7 @@ class Hypixel:
 
     async def get_guild(
         self, name: str = None, guild_id: str = None, playerNameOrUuid: str = None
-    ) -> Guild:
+    ) -> Optional[Guild]:
         """Gets a guild based on one of three parameters
 
         :param name: The name of a guild
@@ -164,19 +164,20 @@ class Hypixel:
         """
         if name is not None:
             _, response = await self._get("/guild", name=name)
-            return Guild(response, self)
         elif guild_id is not None:
             _, response = await self._get("/guild", id=guild_id)
-            return Guild(response, self)
         elif playerNameOrUuid is not None:
             if utils.is_username(playerNameOrUuid):
                 playerNameOrUuid = await self.mojang.name_to_uuid(playerNameOrUuid)
             elif not utils.is_uuid(playerNameOrUuid):
                 raise InvalidAccountDescriptor(playerNameOrUuid)
             _, response = await self._get("/guild", player=playerNameOrUuid)
-            return Guild(response, self)
         else:
             raise NotEnoughArguments("name, id, playerNameOrUuid")
+
+        if response['guild'] is not None:
+            return Guild(response, self)
+        return None
 
     async def get_key_stats(self) -> KeyStats:
         """Gets statistics of API Key"""
