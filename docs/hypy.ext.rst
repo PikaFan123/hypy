@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    hypy.ext.collisions
+   hypy.ext.senither
 
 Module contents
 ---------------

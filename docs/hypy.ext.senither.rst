@@ -1,13 +1,13 @@
-hypy.ext.collisions package
+hypy.ext.senither package
 ===========================
 
 Submodules
 ----------
 
-hypy.ext.collisions.collisions module
+hypy.ext.senither.senither module
 -------------------------------------
 
-.. automodule:: hypy.ext.collisions.collisions
+.. automodule:: hypy.ext.senither.senither
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ hypy.ext.collisions.collisions module
 Module contents
 ---------------
 
-.. automodule:: hypy.ext.collisions
+.. automodule:: hypy.ext.senither
    :members:
    :undoc-members:
    :show-inheritance:
