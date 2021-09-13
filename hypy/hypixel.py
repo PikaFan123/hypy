@@ -44,7 +44,7 @@ class Hypixel:
     _sb_resources = None
     utils = None
     _debug = False
-    __version__ = "1.3.0"
+    __version__ = "1.3.1"
     _retry = False
     _max_retries = 0
     _total_calls = 0
