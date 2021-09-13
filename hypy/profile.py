@@ -73,7 +73,8 @@ class SkyblockProfile(HypyObject):
         """Gets the networth of a profile from the Maro API (https://nariah-dev.com/)"""
         body = {"data": self._raw_member_info, "success": True}
         if include_banking_data_if_available:
-            body["data"]["banking"] = self._raw["banking"]
+            if 'banking' in self._raw:
+                body["data"]["banking"] = self._raw["banking"]
         async with self._hypy.session.post(
             "https://nariah-dev.com/api/networth/total",
             json=body,
