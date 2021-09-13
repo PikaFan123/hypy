@@ -38,7 +38,7 @@ class Hypixel:
 
     _apikey = ""
     loop: asyncio.AbstractEventLoop
-    _session: aiohttp.ClientSession
+    session: aiohttp.ClientSession
     _base_url = "https://api.hypixel.net/"
     mojang: Mojang
     _sb_resources = None
@@ -60,7 +60,7 @@ class Hypixel:
         loop: asyncio.AbstractEventLoop = None,
     ):
         if session is not None:
-            self._session = session
+            self.session = session
         self._apikey = key
         self._debug = debug
         self._retry = retry
@@ -70,13 +70,13 @@ class Hypixel:
 
     async def close(self) -> None:
         """Close internal session"""
-        await self._session.close()
+        await self.session.close()
 
     async def setup(self) -> None:
         """Properly set up Hypixel object"""
-        if not hasattr(self, "_session"):
-            self._session = aiohttp.ClientSession(loop=self.loop)
-        self.mojang = Mojang(session=self._session)
+        if not hasattr(self, "session"):
+            self.session = aiohttp.ClientSession(loop=self.loop)
+        self.mojang = Mojang(session=self.session)
         await self.update_resources()
         self.utils = Utils(self._sb_resources)
 
@@ -103,7 +103,7 @@ class Hypixel:
         for key, value in params.items():
             url += f"{key}={quote(value)}&"
         url = url[:-1]
-        async with self._session.get(url, headers=self._headers) as res:
+        async with self.session.get(url, headers=self._headers) as res:
             try:
                 jsn = await res.json(loads=orjson.loads)
                 if not jsn["success"]:
@@ -175,7 +175,7 @@ class Hypixel:
         else:
             raise NotEnoughArguments("name, id, playerNameOrUuid")
 
-        if response['guild'] is not None:
+        if response["guild"] is not None:
             return Guild(response, self)
         return None
 

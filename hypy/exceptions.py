@@ -135,3 +135,10 @@ class NotInGuildException(HypyException):
 
     def __init__(self, cause) -> None:
         super().__init__("{} is not in the guild".format(cause))
+
+
+class MaroNoSuccess(HypyException):
+    """Exception to raise when the Maro API returns success=false"""
+
+    def __init__(self, status, cause) -> None:
+        super().__init__("Maro returned status={}, cause: {}".format(status, cause))

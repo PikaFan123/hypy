@@ -42,3 +42,4 @@ Credits
 | https://github.com/ijl/orjson
 | https://pypi.org/project/aiofiles/
 | https://github.com/Senither/Hypixel-Skyblock-Leaderboard for the weight calculations
+| https://nariah-dev.com/ for the networth api

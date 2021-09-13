@@ -10,21 +10,21 @@ class Mojang:
     If you are using this with hypy, the Hypixel class already has an instance of this class ready, you do not need to instantiate it yourself
     """
 
-    _session: aiohttp.ClientSession
+    session: aiohttp.ClientSession
     _base_url = "https://api.mojang.com/"
 
     def __init__(self, *, session: aiohttp.ClientSession = None) -> None:
-        self._session = session or aiohttp.ClientSession()
+        self.session = session or aiohttp.ClientSession()
 
     async def _get(self, endpoint) -> Tuple[int, dict]:
         endpoint = endpoint.lstrip("/")  # is this even needed
         url = f"{self._base_url}{endpoint}"
-        async with self._session.get(url) as res:
+        async with self.session.get(url) as res:
             return res.status, await res.json(loads=orjson.loads)
 
     async def close(self) -> None:
         """Close internal aiohttp session"""
-        await self._session.close()
+        await self.session.close()
 
     async def name_to_uuid(self, name) -> str:
         """Returns UUID for given name

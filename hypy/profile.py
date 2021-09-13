@@ -1,3 +1,4 @@
+from typing import Dict
 from collections import defaultdict
 from orjson import orjson
 import aiofiles
@@ -12,6 +13,7 @@ from .skyblockskills import (
     REGULAR_SKILL_FILTER,
 )
 from .skyblockinventories import SkyblockInventory, SkyblockBackpacks
+from .exceptions import MaroNoSuccess
 
 
 class SkyblockProfile(HypyObject):
@@ -64,6 +66,23 @@ class SkyblockProfile(HypyObject):
         """
         async with aiofiles.open(filename, mode="w+") as f:
             await f.write(orjson.dumps(self._raw_member_info, indent=4))
+
+    async def networth(
+        self, include_banking_data_if_available: bool = True
+    ) -> Dict[str, float]:
+        """Gets the networth of a profile from the Maro API (https://nariah-dev.com/)"""
+        body = {"data": self._raw_member_info, "success": True}
+        if include_banking_data_if_available:
+            body["data"]["banking"] = self._raw["banking"]
+        async with self._hypy.session.post(
+            "https://nariah-dev.com/api/networth/total",
+            json=body,
+            headers={"uuid": self._uuid},
+        ) as response:
+            jsn = await response.json()
+            if not str(jsn["status"]).startswith("2"):
+                raise MaroNoSuccess(jsn["status"], jsn["cause"])
+            return jsn["data"]
 
     @property
     def senither_weight(self) -> dict:
