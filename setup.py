@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name="hypy-hypixel",
-    version="1.2.0",
+    version="1.3.0",
     description="A Hypixel API Wrapper",
     url="https://github.com/PikaFan123/hypy",
     author="PikaFan123",
