@@ -12,7 +12,9 @@ class GuildRank(HypyObject):
     tag: str
     """The tag of the rank"""
     priority: int
-    """The priority/position of the rank"""
+    """The priority of the rank"""
+    index: int
+    """The position of the rank"""
 
     def __init__(self, raw, idx) -> None:
         self._raw = raw

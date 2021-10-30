@@ -1,16 +1,24 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from datetime import datetime
 from .hypyobject import HypyObject
 from .hypixelplayer import HypixelPlayer
 
+if TYPE_CHECKING:
+    from .guild import Guild
+    from .guildrank import GuildRank
 
 class GuildMember(HypixelPlayer, HypyObject):
     """A Hypixel Guild Member"""
 
-    def __init__(self, raw, hypy) -> None:
+    rank: GuildRank
+    """The GuildRank of this GuildMember"""
+
+    def __init__(self, raw, guild: Guild, hypy) -> None:
         self._raw = raw
         self._hypy = hypy
         self.uuid = self._raw["uuid"]
-        self.rank = self._raw["rank"]
+        self.rank = guild.rank_of(self)
         self.quest_participation = int(self._raw.get("questParticipation") or 0)
         self.exp_history = self._raw["expHistory"]
 

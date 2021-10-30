@@ -15,6 +15,7 @@ REGULAR_SKILLS = [
 COSMETIC_SKILLS = [
     "carpentry",
     "runecrafting",
+    "social"
 ]
 
 REGULAR_SKILL_FILTER = "experience_skill_{}"
@@ -62,7 +63,7 @@ class SkyblockSkills(HypyObject):
                 "mage": self.mage,
                 "tank": self.tank,
             },
-            "misc": {"carpentry": self.carpentry, "runecrafting": self.runecrafting},
+            "misc": {"carpentry": self.carpentry, "runecrafting": self.runecrafting, "social": self.social},
         }
 
     @property

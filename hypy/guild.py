@@ -29,7 +29,7 @@ class Guild(HypyObject, HypyIterable):
         self._raw: dict = data["guild"]
         self.name = self._raw["name"]
         self.members: List[GuildMember] = [
-            GuildMember(x, hypy) for x in self._raw["members"]
+            GuildMember(x, self, hypy) for x in self._raw["members"]
         ]
         self._id = self._raw["_id"]
 
