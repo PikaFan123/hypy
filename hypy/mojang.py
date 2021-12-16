@@ -1,8 +1,23 @@
-from typing import Tuple
+from typing import Tuple, List
+from datetime import datetime
 import aiohttp
 from orjson import orjson
 from .exceptions import UUIDNotFound, UsernameNotFound
 
+class NameHistoryEntry:
+    """An Entry in a players name history"""
+    changed_to_at: datetime = None
+    name: str = ""
+    uuid: str = ""
+
+    def __init__(self, raw, uuid):
+        self.uuid = uuid
+        if 'changedToAt' in raw:
+            self.changed_to_at = datetime.utcfromtimestamp(raw['changedToAt'] / 1000)
+        self.name = raw['name']
+
+    def __str__(self):
+        return f'<hypy.NameHistoryEntry uuid={self.uuid} name={self.name} changed_to_at={self.changed_to_at}>'
 
 class Mojang:
     """A simple wrapper for Mojangs API
@@ -26,6 +41,18 @@ class Mojang:
         """Close internal aiohttp session"""
         await self.session.close()
 
+    async def get_name_history(self, uuid) -> List[NameHistoryEntry]:
+        """Returns the history of names for the given UUID
+
+        :param uuid: The uuid of the player"""
+        status, response = await self._get(f"/user/profiles/{uuid}/names")
+        if status == 200:
+            return [NameHistoryEntry(entry, uuid) for entry in response]
+            # response[-1]['name']
+        elif status == 204:
+            raise UUIDNotFound(uuid)
+        return ""
+
     async def name_to_uuid(self, name) -> str:
         """Returns UUID for given name
 
@@ -43,10 +70,4 @@ class Mojang:
 
         :param uuid: The uuid of the player
         """
-        status, response = await self._get(f"/user/profiles/{uuid}/names")
-        if status == 200:
-            return response[-1]["name"]
-            # response[-1]['name']
-        elif status == 204:
-            raise UUIDNotFound(uuid)
-        return ""
+        return (await self.get_name_history(uuid))[-1].name
