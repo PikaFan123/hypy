@@ -23,6 +23,11 @@ AUC_DATETIME_FORMAT = r"%d/%m/%y %H:%M"
 
 LORE_REGEX = re.compile(r"§.")
 
+# https://stackoverflow.com/a/10371921/10962150
+def resolve_dict_path(dictionary, path):
+    for item in path.split('.'):
+        dictionary = dictionary[item]
+    return dictionary
 
 def get_auction_lores(auctions):
     """return lore for each auction, use asyncio.to_thread for this"""

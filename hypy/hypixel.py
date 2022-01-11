@@ -28,6 +28,7 @@ from .profile import SkyblockProfile
 from .bazaar import Bazaar
 from .hypixelfriends import HypixelFriends
 from .playercounts import PlayerCounts
+from .ext.skyhelper import SkyHelperWrapper, SkyHelperCredentials
 
 
 class Hypixel:
@@ -48,6 +49,7 @@ class Hypixel:
     _retry = False
     _max_retries = 0
     _total_calls = 0
+    skyhelper: SkyHelperWrapper = None
 
     def __init__(
         self,
@@ -58,6 +60,7 @@ class Hypixel:
         retry: bool = False,
         max_retries: int = 5,
         loop: asyncio.AbstractEventLoop = None,
+        skyhelper_credentials: SkyHelperCredentials = None
     ):
         if session is not None:
             self.session = session
@@ -67,6 +70,9 @@ class Hypixel:
         self._max_retries = max_retries
         self._headers = {"API-Key": self._apikey}
         self.loop = loop or asyncio.get_event_loop()
+        if skyhelper_credentials:
+            self.skyhelper = SkyHelperWrapper(self, skyhelper_credentials)
+
 
     async def close(self) -> None:
         """Close internal session"""

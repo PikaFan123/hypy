@@ -68,22 +68,10 @@ class SkyblockProfile(HypyObject):
             await f.write(orjson.dumps(self._raw_member_info, indent=4))
 
     async def networth(
-        self, include_banking_data_if_available: bool = True
-    ) -> Dict[str, float]:
-        """Gets the networth of a profile from the Maro API (https://nariah-dev.com/)"""
-        body = {"data": self._raw_member_info, "success": True}
-        if include_banking_data_if_available:
-            if 'banking' in self._raw:
-                body["data"]["banking"] = self._raw["banking"]
-        async with self._hypy.session.post(
-            "https://nariah-dev.com/api/networth/total",
-            json=body,
-            headers={"uuid": self._uuid},
-        ) as response:
-            jsn = await response.json()
-            if not str(jsn["status"]).startswith("2"):
-                raise MaroNoSuccess(jsn["status"], jsn["cause"])
-            return jsn["data"]
+        self
+    ) -> Dict:
+        """Gets the networth of a profile from the Hypixel classes SkyHelper API instance, if one exists."""
+        return await self._hypy.skyhelper.get_networth(self._uuid, self.profile_id)
 
     @property
     def senither_weight(self) -> dict:
