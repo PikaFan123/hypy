@@ -1,6 +1,13 @@
 class HypyException(Exception):
     """A Hypy Exception"""
 
+class InvalidHTTPCode(HypyException):
+    """Exception to raise when an HTTP code is not what it was expected to be"""
+
+    def __init__(self, code, acceptable_codes) -> None:
+        super().__init__(
+            "Received HTTP Code {} while only codes {} were expected".format(code, ', '.join(acceptable_codes))
+        )
 
 class UsernameNotFound(HypyException):
     """Exception to raise when a minecraft user was not found"""

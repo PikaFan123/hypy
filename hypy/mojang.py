@@ -1,12 +1,12 @@
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 from datetime import datetime
 import aiohttp
 from orjson import orjson
-from .exceptions import UUIDNotFound, UsernameNotFound
+from .exceptions import UUIDNotFound, UsernameNotFound, InvalidHTTPCode
 
 class NameHistoryEntry:
     """An Entry in a players name history"""
-    changed_to_at: datetime = None
+    changed_to_at: Optional[datetime] = None
     name: str = ""
     uuid: str = ""
 
@@ -51,7 +51,8 @@ class Mojang:
             # response[-1]['name']
         elif status == 204:
             raise UUIDNotFound(uuid)
-        return ""
+        else:
+            raise InvalidHTTPCode(status, [200, 204])
 
     async def name_to_uuid(self, name) -> str:
         """Returns UUID for given name

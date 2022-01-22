@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING, Dict, Tuple
 from dataclasses import dataclass
 import orjson
 from ...utils import resolve_dict_path
@@ -32,7 +32,7 @@ class SkyHelperWrapper:
         self.hypixel = hypixel
         self.creds = creds
 
-    async def _get(self, route) -> (int, Dict):
+    async def _get(self, route) -> Tuple[int, Dict]:
         url = f'{self.creds.instance}:{self.creds.port}/v1'
         async with self.hypixel.session.get(f'{url}{route}', headers={'Authorization': self.creds.key}) as res:
             jsn = await res.json(loads=orjson.loads)

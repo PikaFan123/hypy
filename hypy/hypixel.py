@@ -49,7 +49,7 @@ class Hypixel:
     _retry = False
     _max_retries = 0
     _total_calls = 0
-    skyhelper: SkyHelperWrapper = None
+    skyhelper: Optional[SkyHelperWrapper] = None
 
     def __init__(
         self,
@@ -83,7 +83,7 @@ class Hypixel:
         if not hasattr(self, "session"):
             self.session = aiohttp.ClientSession(loop=self.loop)
         self.mojang = Mojang(session=self.session)
-        await self.update_resources()
+        self._sb_resources = await self.update_resources()
         self.utils = Utils(self._sb_resources)
 
     def _debug_url(self, endpoint, **params) -> str:
@@ -270,7 +270,7 @@ class Hypixel:
             *await asyncio.to_thread(multi_init, results, self), self
         )
 
-    async def find_guild(self, nameOrUuid) -> Guild:
+    async def find_guild(self, nameOrUuid) -> Optional[Guild]:
         """Deprecated, use Hypixel.getGuild instead"""
         return await self.get_guild(playerNameOrUuid=nameOrUuid)
 
@@ -284,7 +284,8 @@ class Hypixel:
         _, response = await self._get("/counts")
         return PlayerCounts(response)
 
-    async def update_resources(self) -> None:
+    async def update_resources(self) -> SkyBlockResources:
         """Update Hypixel Resources"""
         _, response = await self._get("/resources/skyblock/skills")
         self._sb_resources = SkyBlockResources(response)
+        return self._sb_resources # this makes mypy happy
