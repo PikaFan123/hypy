@@ -18,7 +18,6 @@ class GuildMember(HypixelPlayer, HypyObject):
         self._raw = raw
         self._hypy = hypy
         self.uuid = self._raw["uuid"]
-        self.rank = guild.rank_of(self)
         self.quest_participation = int(self._raw.get("questParticipation") or 0)
         self.exp_history = self._raw["expHistory"]
 

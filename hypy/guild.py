@@ -31,6 +31,7 @@ class Guild(HypyObject, HypyIterable):
         self.members: List[GuildMember] = [
             GuildMember(x, self, hypy) for x in self._raw["members"]
         ]
+        self._add_ranks()
         self._id = self._raw["_id"]
 
     def __len__(self) -> int:
@@ -39,6 +40,10 @@ class Guild(HypyObject, HypyIterable):
     def __iter__(self) -> Iterator[GuildMember]:
         for i in self.members:
             yield i
+
+    def _add_ranks(self) -> None:
+        for mem in self.members:
+            mem.rank = self.rank_of(mem.uuid)
 
     def iter_uuids(self) -> Iterator[UUID]:
         for i in self.members:
@@ -86,7 +91,7 @@ class Guild(HypyObject, HypyIterable):
         m = [x for x in self.members if x.uuid == uuid]
         if len(m) != 0:
             mem = m[0]
-            return [r for r in self.ranks if r.name == mem.rank][0]
+            return [r for r in self.ranks if r.name == mem["rank"]][0]
         raise NotInGuildException(uuid)
 
     @property
