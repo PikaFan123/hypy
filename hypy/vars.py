@@ -1891,4 +1891,14 @@ scs = [
     "blue_shark",
     "tiger_shark",
     "great_white_shark",
+    "lord_jawbus",
+    "thunder",
+    "baby_magma_slug"
+    "magma_slug",
+    "lava_flame",
+    "pyroclastic_worm",
+    "moogma",
+    "fire_eel",
+    "pig_rider",
+    "lava_leech"
 ]
