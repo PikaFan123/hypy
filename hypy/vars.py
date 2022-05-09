@@ -205,7 +205,7 @@ cute_names = [
     "Zucchini",
 ]
 
-slayer = ["wolf", "spider", "zombie", "enderman"]
+slayer = ["wolf", "spider", "zombie", "enderman", "blaze"]
 
 misc_skills = ["carpentry", "runecrafting"]
 

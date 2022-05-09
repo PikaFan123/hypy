@@ -24,7 +24,7 @@ DUNGEON_SKILLS = ["catacombs"]
 
 CLASS_SKILLS = ["healer", "berserk", "archer", "mage", "tank"]
 
-SLAYER_TYPES = ["zombie", "spider", "wolf", "enderman"]
+SLAYER_TYPES = ["zombie", "spider", "wolf", "enderman", "blaze"]
 
 
 class SkyblockSkills(HypyObject):
