@@ -9,6 +9,7 @@ Subpackages
 
    hypy.ext.collisions
    hypy.ext.senither
+   hypy.ext.skyhelper
 
 Module contents
 ---------------
