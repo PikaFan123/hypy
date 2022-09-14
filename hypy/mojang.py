@@ -31,28 +31,15 @@ class Mojang:
     def __init__(self, *, session: aiohttp.ClientSession = None) -> None:
         self.session = session or aiohttp.ClientSession()
 
-    async def _get(self, endpoint) -> Tuple[int, dict]:
+    async def _get(self, endpoint, base_url="https://api.mojang.com/") -> Tuple[int, dict]:
         endpoint = endpoint.lstrip("/")  # is this even needed
-        url = f"{self._base_url}{endpoint}"
+        url = f"{base_url}{endpoint}"
         async with self.session.get(url) as res:
             return res.status, await res.json(loads=orjson.loads)
 
     async def close(self) -> None:
         """Close internal aiohttp session"""
         await self.session.close()
-
-    async def get_name_history(self, uuid) -> List[NameHistoryEntry]:
-        """Returns the history of names for the given UUID
-
-        :param uuid: The uuid of the player"""
-        status, response = await self._get(f"/user/profiles/{uuid}/names")
-        if status == 200:
-            return [NameHistoryEntry(entry, uuid) for entry in response]
-            # response[-1]['name']
-        elif status == 204:
-            raise UUIDNotFound(uuid)
-        else:
-            raise InvalidHTTPCode(status, [200, 204])
 
     async def name_to_uuid(self, name) -> str:
         """Returns UUID for given name
@@ -71,4 +58,9 @@ class Mojang:
 
         :param uuid: The uuid of the player
         """
-        return (await self.get_name_history(uuid))[-1].name
+        status, response = await self._get(f'session/minecraft/profile/{uuid}', 'https://sessionserver.mojang.com/')
+        if status == 200:
+            return response["name"]
+        elif status == 400:
+            raise UUIDNotFound(uuid)
+        return ""
