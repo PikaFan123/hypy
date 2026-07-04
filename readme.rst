@@ -2,6 +2,11 @@ hypy
 ====
 A basic Hypixel API wrapper
 
+Notice
+------
+This project has been unmaintained since 2022, and probably does not work anymore following the `API Changes <https://hypixel.net/threads/public-api-changes-february-2023.5266129/>`__ in February of 2023. 
+
+
 covering:
 
 | /punishmentstats
